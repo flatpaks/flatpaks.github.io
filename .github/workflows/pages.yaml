@@ -1,0 +1,33 @@
+name: pages
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: build html
+        run: |
+          echo "hello"
+          projects=$(curl https://api.github.com/users/flatpaks/repos | jq -r '.[].name' | grep -v "flatpaks.github.io")
+          cat top.html > index.html
+          for project in $projects; do
+          echo "<li><a href='/$project'>$project</a> - <a href='https://github.com/flatpaks/$project'>source</a></li>" >> index.html
+          done
+          cat bottom.html >> index.html
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'index.html'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
