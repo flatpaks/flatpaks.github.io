@@ -39,8 +39,7 @@ jobs:
             echo $line >> index.html
           done
           cat bottom.html >> index.html
-          ls -alh
-          echo "index"
+          rm bottom.html top.html
           cat index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
