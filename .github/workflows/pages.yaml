@@ -30,7 +30,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: build html
         run: |
-          projects=$(curl -s https://api.github.com/users/flatpaks/repos | jq -r '.[].name' | grep -v -e "flatpaks.github.io" -e ".github")
+          projects=$(curl -s https://api.github.com/users/flatpaks/repos | jq -r '.[].name' | grep -v -e "flatpaks.github.io" -e "meta" -e ".github")
           echo "projects: $projects"
           cat top.html > index.html
           for project in $projects; do
